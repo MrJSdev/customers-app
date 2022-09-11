@@ -7,9 +7,11 @@
         <CustomersFilter @set-filter="onSetFilter" :customers="customersList" />
       </div>
 
+      <GenericTableSkeleton v-if="isLoading" />
       <GenericTable
         :table-data="filteredCustomersList"
         row-key="customerID"
+        v-else
         :table-columns="tableColumns"
       >
         <template #body-cell-status="{ row }">
@@ -29,19 +31,21 @@
   </q-page>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onBeforeUnmount } from 'vue'
 import { Customer, CustomerFilterValues } from 'src/types/Customer'
 import { api } from 'src/boot/axios'
 import useCustomer from 'src/composables/useCustomer'
 import GenericTable from 'src/components/common/GenericTable.vue'
 import CustomersFilter from 'src/pages/customer/components/CustomersFilter.vue'
 import useUtility from 'src/composables/useUtility'
+import GenericTableSkeleton from 'src/components/common/GenericTableSkeleton.vue'
 
 const { setFilterData } = useUtility()
 const { tableColumns } = useCustomer()
 
 const customersList = ref<Customer[]>([])
 const filteredCustomersList = ref<Customer[]>([])
+const customerListTimeout = ref<ReturnType<typeof setTimeout>>()
 const isLoading = ref(false)
 
 const onSetFilter = (filter: CustomerFilterValues) => {
@@ -55,20 +59,26 @@ const onSetFilter = (filter: CustomerFilterValues) => {
 const fetchCustomers = () => {
   isLoading.value = true
 
-  api
-    .get('https://raw.githubusercontent.com/MrJSdev/customers-app/main/src/mock-data/customers.json')
-    .then((response) => {
-      customersList.value = response.data
-      filteredCustomersList.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-    .finally(() => {
-      isLoading.value = false
-    })
+  // Added setTimeout to simulate API call with some delay to show Skeleton
+  customerListTimeout.value = setTimeout(() => {
+    api
+      .get('https://raw.githubusercontent.com/MrJSdev/customers-app/main/src/mock-data/customers.json')
+      .then((response) => {
+        customersList.value = response.data
+        filteredCustomersList.value = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      .finally(() => {
+        isLoading.value = false
+      })
+  }, 2000)
 }
 
 // Fetch customers on component load
 fetchCustomers()
+
+// Clear timeout on component unmount
+onBeforeUnmount(() => clearTimeout(customerListTimeout.value))
 </script>

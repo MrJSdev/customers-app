@@ -1,14 +1,14 @@
 <template>
   <!-- Filters -->
   <div class="customers-filter row items-center">
-    <div class="col-3">
+    <div class="col-4">
       <q-input
         class="full-width"
         :debounce="300"
         clearable
         outlined
         v-model="filterValues.contactName"
-        placeholder="Search here"
+        placeholder="Search by name or query"
         dense
         @update:model-value="emit('set-filter', filterValues)"
       />
