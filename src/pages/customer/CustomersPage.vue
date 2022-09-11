@@ -56,24 +56,26 @@ const onSetFilter = (filter: CustomerFilterValues) => {
 }
 
 // Fetch customers from mock data, it could be from API
+const fetchCustomersFromRawJson = () => {
+  api
+    .get('https://raw.githubusercontent.com/MrJSdev/customers-app/main/src/mock-data/customers.json')
+    .then((response) => {
+      customersList.value = response.data
+      filteredCustomersList.value = response.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+    .finally(() => {
+      isLoading.value = false
+    })
+}
+
 const fetchCustomers = () => {
   isLoading.value = true
 
   // Added setTimeout to simulate API call with some delay to show Skeleton
-  customerListTimeout.value = setTimeout(() => {
-    api
-      .get('https://raw.githubusercontent.com/MrJSdev/customers-app/main/src/mock-data/customers.json')
-      .then((response) => {
-        customersList.value = response.data
-        filteredCustomersList.value = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-      .finally(() => {
-        isLoading.value = false
-      })
-  }, 2000)
+  customerListTimeout.value = setTimeout(fetchCustomersFromRawJson, 2000)
 }
 
 // Fetch customers on component load

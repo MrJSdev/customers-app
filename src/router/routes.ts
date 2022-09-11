@@ -3,9 +3,15 @@ import { RoutesName } from 'src/router/routesName'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: RoutesName.DASHBOARD,
+    name: RoutesName.HOME,
     component: () => import('layouts/MainLayout.vue'),
     children: [
+      // Temporary route to customers as no dashboard page is ready yet
+      {
+        path: '',
+        name: RoutesName.DASHBOARD,
+        component: () => import('pages/dashboard/DashboardPage.vue')
+      },
       {
         path: '/customers',
         name: RoutesName.CUSTOMERS,
@@ -19,7 +25,14 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/:catchAll(.*)*',
     name: RoutesName.NOT_FOUND,
-    component: () => import('pages/404/404Page.vue')
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: RoutesName.NOT_FOUND,
+        component: () => import('pages/404/404Page.vue')
+      }
+    ]
   }
 ]
 
