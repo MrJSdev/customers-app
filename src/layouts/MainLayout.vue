@@ -1,6 +1,5 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-
     <LayoutSidebar />
 
     <q-page-container>
@@ -11,5 +10,4 @@
 
 <script lang="ts" setup>
 import LayoutSidebar from 'src/layouts/components/LayoutSidebar.vue'
-
 </script>

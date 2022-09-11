@@ -45,7 +45,10 @@ const filteredCustomersList = ref<Customer[]>([])
 const isLoading = ref(false)
 
 const onSetFilter = (filter: CustomerFilterValues) => {
-  filteredCustomersList.value = setFilterData<Customer>(customersList.value, filter)
+  filteredCustomersList.value = setFilterData<Customer>(
+    customersList.value,
+    filter
+  )
 }
 
 // Fetch customers from mock data, it could be from API

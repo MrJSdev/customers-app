@@ -14,11 +14,11 @@
         class="items-center justify-center text-weight-medium text-uppercase"
       >
         <q-btn
-        :unelevated="nav.routeName !== $route.name"
+          :unelevated="nav.routeName !== $route.name"
           :class="{
-              'bg-white text-primary': $route.name === nav.routeName,
-              'text-grey-2': $route.name !== nav.routeName,
-            }"
+            'bg-white text-primary': $route.name === nav.routeName,
+            'text-grey-2': $route.name !== nav.routeName,
+          }"
           :label="nav.label"
         />
       </q-item>
