@@ -56,7 +56,7 @@ const fetchCustomers = () => {
   isLoading.value = true
 
   api
-    .get('src/mock-data/customers.json')
+    .get('https://raw.githubusercontent.com/MrJSdev/customers-app/main/src/mock-data/customers.json')
     .then((response) => {
       customersList.value = response.data
       filteredCustomersList.value = response.data
